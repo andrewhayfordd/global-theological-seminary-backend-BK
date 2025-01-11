@@ -1,0 +1,62 @@
+ if (count($tblbills->get()) != 0) {
+            if (empty($bilItem)) {
+                return response()->json([
+                    "ok" => false,
+                    "msg" => "Unknown bill code supplied ",
+
+
+                ]);
+            }
+
+            try {
+                $transactionResult = DB::transaction(function () use ($bilItem, $tblbills, $billListAmount) {
+                    $updated = $bilItem->update([
+                        "deleted" => "1",
+                    ]);
+                    $updateBill = $tblbills->update([
+                        "deleted" => 1
+                    ]);
+                    $updateBillListAmount = $billListAmount->update([
+                        "deleted" => 1
+                    ]);
+                });
+                if (!empty($transactionResult)) {
+                    throw new Exception($transactionResult);
+                }
+
+                return response()->json([
+                    "ok" => true,
+                ]);
+            } catch (\Throwable $e) {
+                Log::error("Destroying bill item failed" . $e->getMessage());
+                return response()->json([
+                    "ok" => false,
+                    "msg" => "Couldn't delete  bill item",
+
+                ]);
+            }
+        }
+        else{
+            //deleting bill item only from tblitem, if tblbills and  tblbill_amt are empty
+            if (count( $bilItem->get()) == 0) {
+                # code...
+                return response()->json([
+                    "ok" => false,
+                    "msg" => "Unknown bill item code provided"
+                ]);
+            }
+            $deleteBill =$bilItem->update([
+                "deleted" => "1"
+            ]);
+            if (!$deleteBill) {
+                return response()->json([
+                    "ok" => false,
+                    "msg" => "An internal error occured"
+                ]);
+            }
+            return response()->json([
+                "ok" => true,
+                "msg" => "Bill item was successfully deleted"
+            ]);
+
+        }
