@@ -4,7 +4,7 @@ namespace App\Http\Resources\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NoticeResource extends JsonResource
+class HomeworkResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,8 @@ class NoticeResource extends JsonResource
     {
         return [
             "id" => $this->transid,
-            "title" => $this->notice_title,
-            "body" => $this->notice_details,
+            "title" => $this->homework_title,
+            "body" => $this->homework_details,
             "datePosted" => $this->when(isset($this->date_posted), $this->date_posted),
             "dateEnd" => $this->when(isset($this->date_end), $this->date_end),
         ];

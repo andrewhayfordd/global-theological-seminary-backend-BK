@@ -33,7 +33,7 @@
                        
                     $parentMods = ['parent' => $parent];
                 }
-                
+
                 if (Auth::user()->usertype === 'STU') {
                     $parent = DB::table('tblmodule')
                         ->select('tbluser_module_privileges.mod_read', 'tbluser_module_privileges.userid', 'tblmodule.mod_name', 'tblmodule.mod_label', 'tblmodule.mod_url', 'tblmodule.mod_icon', 'tblmodule.mod_id')
@@ -47,7 +47,9 @@
                         ->get();
                        
                     $parentMods = ['parent' => $parent];
+
                 }
+                
             @endphp
             @foreach ($parent as $parentMod)
                 <li class="nav-item @if (Route::currentRouteName() === strtolower($parentMod->mod_name)) active @endif">
@@ -57,6 +59,7 @@
                 </li>
             @endforeach
         @endif
+
 
         @if (Auth::user()->usertype === 'SDM')
             <li class="nav-item @if (Route::currentRouteName() === 'dashboard') active @endif">

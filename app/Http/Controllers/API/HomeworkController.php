@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\API\NoticeResource;
+use App\Http\Resources\API\HomeworkResource;
 use App\Http\Resources\User;
-use App\Models\Notice;
+use App\Models\Homework;
 use App\Models\User as ModelsUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class NoticeController extends Controller
+class HomeworkController extends Controller
 {
     public function index(Request $request, $usertype, $schoolCode)
 {
@@ -38,13 +38,13 @@ class NoticeController extends Controller
         ]);
     }
 
-    $notices = Notice::where(function ($query) use ($usertype, $schoolCode, $academicDetails) {
-        $query->where("notice_recipient", $usertype)
+    $homeworks = Homework::where(function ($query) use ($usertype, $schoolCode, $academicDetails) {
+        $query->where("homework_recipient", $usertype)
             ->where("school_code", $schoolCode)
             ->where("acyear", $academicDetails->acyear_desc)
             ->where("term", $academicDetails->acterm);
     })
-    ->orWhere("notice_recipient", "ALL")
+    ->orWhere("homework_recipient", "ALL")
     ->whereDate("date_end", ">", Carbon::today("Africa/Accra"))
     ->orderBy("date_posted", "desc")
     ->get();
@@ -52,7 +52,7 @@ class NoticeController extends Controller
     return response()->json([
         "ok" => true,
         "msg" => "Request is successful",
-        "data" => NoticeResource::collection($notices),
+        "data" => HomeworkResource::collection($homeworks),
     ]);
 }
 

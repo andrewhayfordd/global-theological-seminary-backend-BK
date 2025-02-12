@@ -88,6 +88,50 @@ class Routecontroller extends Controller
                 "prog" => $prog,
             ]);
         }
+
+        if (Auth::user()->usertype === 'STU') {
+            $staff = DB::table("tblstudent")->where('school_code', Auth::user()->school->school_code)->where("deleted", 0)->count();
+            $depart = DB::table("tbldept")->where('school_code', Auth::user()->school->school_code)->where("deleted", 0)->count();
+            $prog = DB::table("tblprog")->where('school_code', Auth::user()->school->school_code)->where("deleted", 0)->count();
+            $courses = DB::table('tblcourse')
+                ->join('tblcourse_assignment', "tblcourse_assignment.course_code", 'tblcourse.course_code')
+                ->where('tblcourse.deleted', '0')
+                ->where('tblcourse_assignment.deleted', '0')
+                ->where('tblcourse.school_code', Auth::user()->school->school_code)
+                ->where('tblcourse_assignment.staffno', Auth::user()->userid)
+                ->count();
+
+
+            $newCourses = DB::table('tblcourse')->select('tblcourse.course_code')
+                ->join('tblcourse_assignment', "tblcourse_assignment.course_code", 'tblcourse.course_code')
+                ->where('tblcourse.deleted', '0')
+                ->where('tblcourse_assignment.deleted', '0')
+                ->where('tblcourse_assignment.staffno', Auth::user()->userid)
+                ->get()->toArray();
+
+            $courseCode = [];
+            foreach ($newCourses as  $value) {
+                $courseCode[] = $value->course_code;
+            }
+
+            $students = DB::table("tblcourse_reg")
+                ->join("tblstudent", "tblstudent.student_no", "tblcourse_reg.student_code")
+                ->join("tblcourse", "tblcourse.course_code", "tblcourse_reg.course_code")
+                ->whereIn("tblcourse_reg.course_code", $courseCode)
+                ->where("tblstudent.deleted", 0)
+                ->where("tblcourse.deleted", 0)
+                ->where("tblcourse_reg.deleted", 0)
+                ->count();
+
+            return view('student.student_dashboard', [
+                "courses" => $courses,
+                "students" => $students,
+                "staff" => $staff,
+                "depart" => $depart,
+                "prog" => $prog,
+            ]);
+        }
+
     }
 
     //reurning the student module view

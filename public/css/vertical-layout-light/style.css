@@ -24125,7 +24125,7 @@ div.tagsinput span.tag a {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 4.625rem);
-  background: #ffffff;
+  background: #fff;
   font-family: "Poppins", sans-serif;
   font-weight: normal;
   padding: 0;

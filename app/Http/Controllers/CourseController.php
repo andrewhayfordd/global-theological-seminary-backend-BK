@@ -547,6 +547,7 @@ class CourseController extends Controller
                     "school_code" => $request->school_code,
                     "course_code" => $request->course_code,
                     "branch_code" => $request->branch,
+                    "semester" => $request->semester,
                     "student_code" => $request->student_no,
                     "reg_date" => date('Y-m-d'),
                     "deleted" => "0",

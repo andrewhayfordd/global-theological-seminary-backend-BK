@@ -244,6 +244,8 @@ class StudentsController extends Controller
                     "school_code" => $school_code,
                     "userid" => $studentNo,
                     "email" => $request->email,
+                    "fname" => strtoupper($request->fname),
+                    "lname" => strtoupper($request->lname),
                     "usertype" => User::TYPE_STUDENT,
                     "password" => Hash::make($studentNo),
                     "deleted" => "0",

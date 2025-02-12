@@ -48,7 +48,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <label>Semester<span class="text-danger">*</span></label>
-                            <select class="form-control select2" name="course_code">
+                            <select class="form-control select2" name="semester">
                                 <option value="">--Select--</option>
                                 @foreach ($semester as $item)
                                     <option value={{ $item->sem_code }}>{{ $item->sem_desc }}</option>

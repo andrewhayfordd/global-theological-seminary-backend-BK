@@ -246,6 +246,8 @@ class staffcontroller extends Controller
                         DB::table("tbluser_module_privileges")->insert([
                             "userid" => $staffno,
                             "school_code" => $request->school_code,
+                            'fname' => ucfirst($request->fname),
+                            'lname' => ucfirst($request->lname),
                             "mod_read" => "1",
                             "mod_id" => $mod->mod_id,
                             "createdate" => date("Y-m-d"),

@@ -12,8 +12,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class AssessmentController extends Controller
-{
+class AssessmentController extends Controller{
+
+    public function index(){
+        // return view('modules/grades.index', compact('grades'));
+        $student = DB::table('tblstudent')->get();
+        $branch = DB::table('tblbranch')->get();
+        $semester = DB::table('tblsemester')->get();
+        $batch = DB::table('tblbatch')->get();
+        $prog = DB::table('tblprog')->get();
+        $course = DB::table('tblcourse')->get();
+        return view('modules/assessment.index', compact('student', 'branch', 'semester', 'batch', 'prog', 'course'));
+        return view('modules/assessment/modals.add_student_assess', compact('course'));
+    }
+
     public function filterFetchTerminalReport(Request $request, $schoolCode)
     {
         $studentArray = [];

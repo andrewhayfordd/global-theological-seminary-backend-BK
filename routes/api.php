@@ -34,6 +34,7 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMemberController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\HomeworkController;
 use App\Http\Resources\User;
 use App\Models\Staff;
 use Illuminate\Http\Request;
@@ -99,6 +100,10 @@ Route::prefix('department')->group(function () {
     Route::post('add', [departmentcontroller::class, 'store']);
     Route::post('delete/{departmentcode}', [departmentcontroller::class, 'destroy']);
     Route::post('update', [departmentcontroller::class, 'update']);
+});
+
+Route::prefix('homeworks')->group(function () {
+    Route::post('add', [HomeworkController::class, 'store']);
 });
 
 //Route for satff module

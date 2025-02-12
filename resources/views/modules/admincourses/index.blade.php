@@ -1,4 +1,5 @@
 @extends('layout.app')
+@section('page-name', 'Course')
 @section('page-content')
     <!-- Page Header -->
     <div class="page-header">
@@ -435,23 +436,27 @@
 
         //showing list of all courses
         var courseStudent = $('#student-course-table').DataTable({
-            dom: 'frtip',
-
+            dom: 'Bfrtip',
+            ajax: {
+                url: `${appUrl}/api/course/course_students/${school_code}`,
+                type: "GET",
+            },
             processing: true,
             responsive: true,
             columns: [{
-                    data: "stuentname"
+                    data: "student"
                 },
                 {
                     data: "semester"
                 },
 
                 {
-                    data: "academicyear"
+                    data: "acyear"
                 }
             ],
 
         });
+
 
         $("#admincourses-table").on("click", ".btn-info", function() {
             $('#course-list-modal').modal('show');
@@ -914,6 +919,7 @@
                 },
             ]
         });
+
         //course students
         var StudentCourseTable = $('#course-student-table').DataTable({
             "lengthChange": false,
